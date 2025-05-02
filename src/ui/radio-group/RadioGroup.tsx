@@ -9,7 +9,7 @@ type RadioGroupProps = {
 	options: OptionType[];
 	selected: OptionType;
 	onChange?: (value: OptionType) => void;
-	title: string;
+	title?: string;
 };
 
 export const RadioGroup = (props: RadioGroupProps) => {
