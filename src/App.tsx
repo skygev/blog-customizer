@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Article } from './components/article';
 import { ArticleParamsForm } from './components/article-params-form';
 import {
@@ -10,27 +10,6 @@ export const App = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const [articleState, setArticleState] =
 		useState<ArticleStateType>(defaultArticleState);
-	const [formState, setFormState] =
-		useState<ArticleStateType>(defaultArticleState);
-
-	const sidebarRef = useRef<HTMLDivElement>(null);
-
-	// Закрытие при клике вне формы
-	useEffect(() => {
-		const handleMouseDownOutside = (event: MouseEvent) => {
-			if (
-				isSidebarOpen &&
-				sidebarRef.current &&
-				!sidebarRef.current.contains(event.target as Node)
-			) {
-				setIsSidebarOpen(false);
-			}
-		};
-
-		document.addEventListener('mousedown', handleMouseDownOutside);
-		return () =>
-			document.removeEventListener('mousedown', handleMouseDownOutside);
-	}, [isSidebarOpen]);
 
 	// Применение CSS-переменных
 	useEffect(() => {
@@ -48,29 +27,24 @@ export const App = () => {
 		);
 	}, [articleState]);
 
-	const handleApply = () => {
-		setArticleState(formState);
+	const handleApply = (newState: ArticleStateType) => {
+		setArticleState(newState);
 		setIsSidebarOpen(false);
 	};
 
 	const handleReset = () => {
-		setFormState(defaultArticleState);
 		setArticleState(defaultArticleState);
 	};
 
 	return (
 		<>
 			<Article />
-			<div ref={sidebarRef}>
-				<ArticleParamsForm
-					state={formState}
-					isOpen={isSidebarOpen}
-					onChange={setFormState}
-					onApply={handleApply}
-					onReset={handleReset}
-					onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
-				/>
-			</div>
+			<ArticleParamsForm
+				isOpen={isSidebarOpen}
+				onApply={handleApply}
+				onReset={handleReset}
+				onToggle={() => setIsSidebarOpen(!isSidebarOpen)}
+			/>
 		</>
 	);
 };

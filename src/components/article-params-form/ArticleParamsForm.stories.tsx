@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ArticleParamsForm } from './ArticleParamsForm';
-import { defaultArticleState } from 'src/constants/articleProps';
 
 const meta: Meta<typeof ArticleParamsForm> = {
 	title: 'Components/ArticleParamsForm',
@@ -30,11 +29,9 @@ type Story = StoryObj<typeof ArticleParamsForm>;
 
 export const Default: Story = {
 	args: {
-		state: defaultArticleState,
 		isOpen: true,
 		onApply: () => alert('Применено'),
 		onReset: () => alert('Сброшено'),
-		onChange: () => {},
-		onToggle: () => {},
+		onToggle: () => alert('Открытие/Закрытие'),
 	},
 };
