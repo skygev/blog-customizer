@@ -43,31 +43,31 @@ export const Select = (props: SelectProps) => {
 		setIsOpen(false);
 		onChange?.(option);
 	};
+
 	const handlePlaceHolderClick: MouseEventHandler<HTMLDivElement> = () => {
-		setIsOpen((isOpen) => !isOpen);
+		setIsOpen((prev) => !prev);
 	};
 
 	return (
 		<div className={styles.container}>
 			{title && (
-				<>
-					<Text size={12} weight={800} uppercase>
-						{title}
-					</Text>
-				</>
+				<Text size={12} weight={800} uppercase>
+					{title}
+				</Text>
 			)}
+
 			<div
 				className={styles.selectWrapper}
 				ref={rootRef}
 				data-is-active={isOpen}
 				data-testid='selectWrapper'>
 				<img src={arrowDown} alt='иконка стрелочки' className={styles.arrow} />
+
 				<div
 					className={clsx(
 						styles.placeholder,
 						(styles as Record<string, string>)[optionClassName]
 					)}
-					data-status={status}
 					data-selected={!!selected?.value}
 					onClick={handlePlaceHolderClick}
 					role='button'
@@ -82,17 +82,16 @@ export const Select = (props: SelectProps) => {
 						{selected?.title || placeholder}
 					</Text>
 				</div>
+
 				{isOpen && (
 					<ul className={styles.select} data-testid='selectDropdown'>
-						{options
-							.filter((option) => selected?.value !== option.value)
-							.map((option) => (
-								<Option
-									key={option.value}
-									option={option}
-									onClick={() => handleOptionClick(option)}
-								/>
-							))}
+						{options.map((option) => (
+							<Option
+								key={option.value}
+								option={option}
+								onClick={() => handleOptionClick(option)}
+							/>
+						))}
 					</ul>
 				)}
 			</div>
